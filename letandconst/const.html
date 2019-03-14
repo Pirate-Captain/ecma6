@@ -1,0 +1,44 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>const</title>
+        <script>
+            //声明后值不能修改
+            const m = 10;
+            try {
+                m = 5;
+            } catch (e) {
+                document.write("const error：" + e + "<br/>");
+            }
+            //暂时性死区
+            try {
+                document.write(n);
+                const n = 10;
+            } catch (e) {
+                document.write("const 暂时性死区：" + e + "<br/>");
+            }
+            //const 实际上是指向的内存地址保存的值不能修改
+            const foo = {};
+            foo.a = "hello";
+            foo.b = "word";
+            document.write("const 修改对象的值：" + foo + "<br>");
+            try {
+                foo = {};
+            } catch (e) {
+                document.write("const 对象的引用不能修改：" + e + "<br>");
+            }
+            //对象的冻结
+            const message = Object.freeze({a:"hello", b: "world"});
+            //不报错，但是值也修改不了
+            message.a = "say";
+            document.write("const freeze object：" + message.a + "<br>");
+
+            const message1 = Object.freeze({m: {a: "hello"}});
+            message1.m.a = "say";
+            document.write("const not freeze inner object：" + message1.m.a + "<br>");
+        </script>
+    </head>
+    <body>
+
+    </body>
+</html>

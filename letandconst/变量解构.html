@@ -1,0 +1,119 @@
+<html lang="cn">
+<head>
+    <meta charset="UTF-8">
+    <title>变量解构</title>
+    <script>
+        let [a, b, c] = ["hello", 1, {a: "m", b: "c"}];
+        document.write("数组解构：a =" + a + "<br>");
+
+        let [m, [[n]], v] = ["hello", [[1], {a: "m", b: "c"}]];
+        document.write("数组解构：m =" + m + "<br>");
+
+        let [aa, bb] = [10];
+        document.write("数组解构，两边数据不一致：bb=" + bb + "<br>");
+
+        let [a1, b1, c1] = [1, 2, 3, 4];
+        document.write("数组结果，两边数据不一致，右边比较多：c1=" + c1 + "<br>");
+
+        try {
+            let [a2] = 1;
+        } catch (e) {
+            document.write("数组解构，右边不是数组；" + e + "<br>");
+        }
+
+        let [a3, b2, c2] = new Set([1, 2, 3]);
+        document.write("数组解构，右侧是set，a3=" + a3 + "<br>");
+
+        //默认赋值
+        let [b3 = 1] = [undefined];
+        document.write("数组解构，默认赋值：b3=" + b3 + "<br>");
+
+        let [c3 = 1] = [null];
+        document.write("数组解构，默认赋值，但是右侧不是undefined，因此默认赋值不生效：c3 = " + c3 + "<br>");
+
+        function f() {
+            document.write("数组解构，默认赋值，看看会不会执行我这个函数");
+        }
+
+        let [a4 = f()] = [1];
+
+        //对象的解构赋值
+        let {m1, n1} = {m1: "Hello", n1: "world"};
+        document.write("对象解构：m1=" + m1 + "<br>");
+
+        let {m2, n2} = {n2: "Hello", m2: "world"};
+        document.write("对象解构，左右两侧的顺序可以不一致：m2 = " + m2 + "<br>");
+
+        let {m3} = {a: "Hello", b: "world"};
+        document.write("对象解构，右侧没有该对象的同名的属性：m3=" + m3 + "<br>");
+
+        let {a11: n3} = {a11: "hello"};
+        document.write("对象解构，左右两侧属性名不一致，左侧使用别名：n3=" + n3 + "<br>");
+
+        let {a12: [m4, n4]} = {a12: ["hello", {a: "World"}]};
+        document.write("对象解构，嵌套的对象：m4 =" + m4 + "<br>");
+
+        let {m5 = 1} = {};
+        document.write("对象解构，默认值：m5=" + m5 + "<br>");
+
+        try {
+            let {n5: {b4}} = {a: {b: "hello"}};
+        } catch (e) {
+            document.write("对象解构，父类对象不存在，报错：" + e + "<br>");
+        }
+
+        let c4;
+        try {
+            //已声明的对象不能解构
+            //{c4} = {c4: 1};
+            //加上括号之后可以
+            ({c4} = {c4: 1});
+        } catch (e) {
+            document.write("对象解构，已声明的对象不能解构：" + e);
+        }
+        //解构对象的方法
+        let {log, sin, cos} = Math;
+
+        const [a6, b6, c6, m6, n6] = 'hello';
+        document.write("字符串解构，a6=" + a6 + "<br>");
+
+        let {length: len} = 'hello';
+        document.write("字符串属性解构，len=" + len + "<br>");
+
+        let {toString: a7} = 123;
+        document.write("数值解构，a7=" + (a7 === Number.prototype.toString) + "<br>");
+
+        function add([b7, c7]) {
+            return b7 + c7;
+        }
+
+        document.write("函数参数解构，add()=" + add([3, 4]) + "<br>");
+
+        function add1({m7 = 1, n7 = 2} = {}) {
+            return [m7, n7];
+        }
+
+        document.write("函数参数解构，带有默认值：add1({x:3})=" + add1({m7: 3}) + "<br>");
+
+        function add2({a8, b8} = {a8: 1, b8: 2}) {
+            return [a8, b8];
+        }
+
+        document.write("函数参数解构，函数参数默认值：add2({a8:6})=" + add2({a8: 6}) + "<br>");
+
+        let m8 = 10, n8 = 5;
+        [m8, n8] = [n8, m8];
+        document.write("数组解构，交互数值：m8=" + m8 + ", n8=" + n8 + "<br>");
+
+        const map = new Map();
+        map.set("a", "hello");
+        map.set("b", "world");
+        for (let [key, value] of map) {
+            document.write("map解构，key=" + key + ", value=" + value + "<br>");
+        }
+    </script>
+</head>
+<body>
+
+</body>
+</html>

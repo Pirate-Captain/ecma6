@@ -1,0 +1,98 @@
+<html lang="cn">
+<head>
+    <meta charset="UTF-8">
+    <title>字符串的扩展</title>
+    <script>
+        var s = "吉";
+        document.write("字符串扩展codePointAt()：" + s.codePointAt(0) + "<br>");
+
+        document.write("'abcd'.repeate(5)=" + 'abcd'.repeat(5) + "<br>");
+        document.write("'abcd'.repeate(5.5)=" + 'abcd'.repeat(5.5) + "<br>");
+        document.write("'abcd'.padStart(10, 'm') = " + 'abcd'.padStart(10, 'm') + "<br>");
+        document.write("'abcdefg'.padStart(5, 'm') = " + 'abcdefg'.padStart(5, 'm') + "<br>");
+        document.write("'abcd'.padEnd(5, 'mc') = " + 'abcd'.padEnd(5, 'mc') + "<br>");
+
+        //模板字符串本身，在需要时执行，方法一：
+        let str = 'return ' + '`Hello ${name}`';
+        let func = new Function('name', str);
+        document.write("模板字符串在需要时执行，方法一：" + func('张三') + "<br>");
+
+        //模板字符串本身，在需要时执行，方法二：
+        let str1 = '(name) => `Hello ${name}`';
+        let func1 = eval.call(null, str1);
+        document.write("模板字符串在需要时执行，方法二：" + func1('李四') + "<br>");
+
+        //模板编译
+        let template = `
+        <ul>
+            <% for (let i=0; i<data.supplies.length;i++) {%>
+            <li><%= data.supplies[i]%></li>
+            <%}%>
+        </ul>
+        `;
+
+        function compile(template) {
+            var evalExpr = /<%=(.+?)%>/g;
+            var expr = /<%([\s\S]+?)%>/g;
+
+            template = template.replace(evalExpr, '`); \n echo($1); \n echo(`')
+                .replace(expr, '`); \n $1 \n echo(`');
+            template = 'echo(`'+template +'`);';
+
+            let script = `(function parse(data){
+                let output = '';
+                function echo(html) {
+                    output += html;
+                }
+
+                ${template}
+
+                return output;
+            })`;
+
+            return script;
+        }
+
+        //标签模板
+        // alert `hello 123`;
+
+        function outputStrLable(s, ...values) {
+            document.write("字符串标签：s = " + s + ", values=" + values + "<br>");
+        }
+
+        let m1 = 10, n1 = 8;
+        outputStrLable `这是m1：${m1}，这是n1：${n1}`;
+    </script>
+</head>
+<body>
+<div id="message">
+
+</div>
+<div id="message1">
+
+</div>
+<div id="message2"></div>
+<script>
+    document.getElementById("message").innerHTML = `
+        <span>这是模板字符串哟！</span>
+        `;
+
+    let name = "张三";
+    let age = 30;
+
+    function showMessage() {
+        return "hello " + age + " 岁的 " + name;
+    }
+
+    document.getElementById("message1").innerHTML = `
+    新的模板字符串哟：
+    <span>姓名：${name}</span>&nbsp;
+    <span>年龄：${age}</span>&nbsp;
+    <span>${showMessage()}，${'原样输出'}</span>
+    `;
+
+    let parse = eval(compile(template));
+    document.getElementById("message2").innerHTML = parse({supplies : ["a1", "a2", "a3"]});
+</script>
+</body>
+</html>
