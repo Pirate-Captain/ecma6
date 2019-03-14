@@ -1,0 +1,45 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>正则表达式的扩展</title>
+    <script>
+        let s = 'aaaa_aa_a';
+        let reg1 = /a+/g;
+        let reg2 = /a+/y;
+
+        document.write("r1-1：" + reg1.exec(s) + "<br>");
+        document.write("r2-1：" + reg2.exec(s) + "<br>");
+
+        document.write("r1-2：" + reg1.exec(s) + "<br>");
+        document.write("r2-2：" + reg2.exec(s) + "<br>");
+
+        const RE_DATE = /(?<year>\d{4})-(?<month>\d{2})-(?<day>\d{2})/;
+
+        //具名组匹配
+        const reg = /(?<year>\d{4})-(?<month>\d{2})-(?<day>\d{2})/;
+        const matchObj = reg.exec("2019-03-14");
+        document.write("具名组 matchObj.groups.year=" + matchObj.groups.year + "<br>");
+
+        //解构赋值和替换
+        let {groups: {one, two}} = /(?<one>.*):(?<two>.*)/.exec("a:b");
+        document.write("解构赋值和替换：one=" + one + ", two=" + two + "<br>");
+
+        // 字符串替换时，使用$<组名>引用具名组。
+        let re = /(?<year>\d{4})-(?<month>\d{2})-(?<day>\d{2})/;
+        document.write("解构赋值：" + "$<year>" + "<br>");
+        document.write("解构赋值或替换：\"2019-03-14\".replace(re, \"$<day>/<month>/$<year>\" = " + "2019-03-14".replace(re, "$<day>/<month>/$<year>") + "<br>");
+
+        //matchAll
+        const re2 = /t(e)(st(\d?))/g;
+        const ss = 'test1test2test3';
+        for (const mmm of ss.matchAll(re2)) {
+            document.write("matchAll：" + mmm + "<br>");
+        }
+        //matchAll转换为数组
+        const a1 = [...ss.matchAll(re2)];
+        document.write("matchAll转换为数组方法一：" + a1 + "<br>");
+        const a2 = Array.from(ss.matchAll(re2));
+        document.write("matchAll转换为数组方法二：" + a2 + "<br>");
+    </script>
+</head>
+</html>

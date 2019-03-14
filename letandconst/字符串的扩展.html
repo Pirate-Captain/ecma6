@@ -58,10 +58,28 @@
 
         function outputStrLable(s, ...values) {
             document.write("字符串标签：s = " + s + ", values=" + values + "<br>");
+            let contactStr = '';
+            for (let i = 0; i < s.length; i++) {
+                contactStr += s[i];
+                if (i < values.length) {
+                    contactStr += values[i];
+                }
+            }
+            document.write("字符串标签拼接：contactStr =" + contactStr + "<br>");
         }
 
         let m1 = 10, n1 = 8;
         outputStrLable `这是m1：${m1}，这是n1：${n1}`;
+
+        function rowLable(str) {
+            document.write("字符串标签raw：" + str.raw[0] + "<br>");
+        }
+
+        rowLable `abcde\ne`;
+
+        //String.raw
+        document.write("String.raw：" + String.raw`Hello\\n${2 + 3}` + "<br>");
+        document.write("String.raw 对象：" + String.raw({raw: 'test'}, 1, 6, 3));
     </script>
 </head>
 <body>
