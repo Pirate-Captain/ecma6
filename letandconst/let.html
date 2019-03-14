@@ -1,0 +1,106 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>let</title>
+    <script>
+        {
+            var a = 10;
+            let b = 20;
+            document.write("inner a:" + a + ", b:" + b + "<br/>");
+        }
+        document.write("outer a:" + a + "<br/>");
+        try {
+            //这是读取不到的
+            document.write("outer b:" + b + "<br/>");
+        } catch (e) {
+            document.write(e + "<br/>");
+        }
+
+        var aa = [];
+        //let 变量只在for循环里有效 每一轮循环let1都是新声明的
+        for ( let let1 = 0; let1 < 10; let1++ ) {
+            aa[let1] = function () {
+                document.write("let for loop：" + let1 + "<br/>");
+            }
+        }
+        aa[4]();
+        var bb = [];
+        //var1 全局有效
+        for ( var var1 = 0; var1 < 10; var1++) {
+            bb[var1] = function () {
+                document.write("var for loop :" + var1 + "<br/>")
+            }
+        }
+        bb[4]();
+        //for循环的父、子作用域
+        for ( let let2 = 0; let2 < 10; let2++ ) {
+            let let2 = "abcde";
+            document.write("double scope of let ：" + let2 + "<br/>");
+        }
+
+        try {
+            document.write("let变量不提升：" + let3);
+        } catch (e) {
+            document.write("let变量不提升异常：" + e + "<br/>")
+        }
+        let let3 = 10;
+        //暂死性区域
+        var const1 = "abcd";
+        if (true) {
+            try {
+                const1 = "efgh";
+            }catch (e) {
+                document.write("暂死性区域：" + e + "<br/>")
+            }
+            let const1;
+        }
+
+        if (true) {
+            // TDZ开始
+            try {
+                tmp = 'abc'; // ReferenceError
+                document.write(tmp); // ReferenceError
+            } catch (e) {
+                document.write("暂死性区域：" + e + "<br/>");
+            }
+
+            let tmp; // TDZ结束
+            document.write("暂死性区域结束：" + tmp + "<br/>"); // undefined
+
+            tmp = 123;
+            document.write("重新赋值：" + tmp + "<br/>"); // 123
+        }
+        function bar(x = y, y=2) {
+            return [x, y];
+        }
+        try {
+            bar();
+        } catch (e) {
+            document.write("暂死性区域，y没有声明:" + e + "<br/>")
+        }
+
+        //不报错
+        var x= x;
+
+        try {
+            //报错
+            let x = x;
+        } catch (e) {
+            document.write("暂死性区域，x没有声明完:" + e + "<br/>")
+        }
+
+        //同一个作用域内，不允许重复声明同一个变量
+        function a() {
+            // let m = 5;
+            var m = 10;
+        }
+
+        function b(arg) {
+            // let arg;
+        }
+    </script>
+</head>
+<body>
+
+</body>
+</html>
