@@ -1,0 +1,83 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+<script>
+    function* firstGenerator() {
+        console.log("first generator begin");
+        yield 1;
+        yield 2;
+        yield 3;
+        return 4;
+    }
+
+    let firstTGeneratorObj = firstGenerator();
+    console.log(firstTGeneratorObj.next());
+    console.log(firstTGeneratorObj.next());
+    console.log(firstTGeneratorObj.next());
+    console.log(firstTGeneratorObj.next());
+    console.log(firstTGeneratorObj.next());
+
+    // yield 后面的表达式是惰性求值
+    function* lazyGenerator() {
+        console.log("laze begin")
+        yield calcData(1, 2);
+    }
+
+    function calcData(a, b) {
+        console.log("exceute calc data");
+        return a + b;
+    }
+
+    let lazyCalc = lazyGenerator();
+    console.log("test lazy begin");
+    console.log(lazyCalc.next());
+
+    // yield 在表达式中，必须放在圆括号里
+    function* yieldHuoHao() {
+        console.log('Hello' + (yield));
+        console.log('hello' + (yield 123));
+    }
+
+    let yieldKuoHaoObj = yieldHuoHao();
+    console.log(yieldKuoHaoObj.next());
+    console.log(yieldKuoHaoObj.next());
+    console.log(yieldKuoHaoObj.next());
+
+    function* noReturn() {
+        yield 1;
+        console.log("hell no return");
+    }
+
+    let noReturnObj = noReturn();
+    console.log(noReturnObj.next());
+    // yield执行之后就暂停
+    console.log(noReturnObj.next());
+
+    let generatorIterator = {};
+    generatorIterator[Symbol.iterator] = function* () {
+        yield 1;
+        yield 2;
+        yield 3;
+    }
+    console.log([...generatorIterator]);
+
+    function* nextParam(x) {
+        let y = 2 * (yield (x + 1));
+        let z = yield (y / 3);
+        return (x + y + z);
+    }
+
+    let nextParam1 = nextParam(5);
+    console.log(nextParam1.next());
+    console.log(nextParam1.next());
+    console.log(nextParam1.next());
+
+    let nextParam2 = nextParam(5);
+    console.log(nextParam2.next());
+    console.log(nextParam2.next(3));
+    console.log(nextParam2.next(3));
+</script>
+</body>
+</html>

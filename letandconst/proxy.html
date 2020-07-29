@@ -1,0 +1,23 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+<script>
+    let obj = new Proxy({}, {
+        get(target, property, receiver) {
+            console.log("obj get " + property);
+            console.log(receiver);
+            console.log(obj === receiver);
+            return Reflect.get(target, property, receiver);
+        },
+        set(target, property, value, receiver) {
+            console.log("obj set " + property);
+            return Reflect.set(target, property, value, receiver);
+        }
+    });
+    obj.name;
+    obj.name = "张三";
+</script>
+</body>
+</html>
